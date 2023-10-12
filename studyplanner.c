@@ -11,7 +11,7 @@ typedef struct node {
 } node;
 
 void displaynode(node * n){
-     printf("The subject name is:  ");
+     printf("The subject name is: %s \n The number of hours is: %d \n The marks alotted are %d", n->name, n->hours, n->marks);
 }
 
 
@@ -19,11 +19,10 @@ int main(){
     node *head = (node *)malloc(sizeof(node));
     printf("Enter the name of the subject\n");
     scanf("%s", head->name);
-    printf("Enter the number of hours or -1 if you want to calculate it automatically later");
-    scanf("%d",head->hours);
-    printf("Enter the number of marks or -1 if you want to calculate it automatically later");
-    scanf("%d",head->marks);
+    printf("Enter the number of hours or -1 if you want to calculate it automatically later: ");
+    scanf("%d",&head->hours);
+    printf("Enter the number of marks or -1 if you want to calculate it automatically later: ");
+    scanf("%d",&head->marks);
+    displaynode(head);
 
-
-    
 } 
