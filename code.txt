@@ -1,0 +1,174 @@
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+#define MAX_SIZE 100
+
+typedef struct node {
+    struct node * arr[MAX_SIZE];
+    char name[MAX_SIZE];
+    int hours;
+    int children;
+    int marks;
+    int completed;
+} node;
+
+void insertNode(node * head);
+
+node ** rootPointer;
+void displaynode(node * n){ // Tested
+     printf("The subject name is: %s \nThe number of hours is: %d \nThe marks alotted are: %d\n\n", n->name, n->hours, n->marks);
+     
+}
+
+void search(node * root, char s[MAX_SIZE], node ** found) //Tested
+{
+    if(strcmp(root->name, s) == 0)
+    {
+        *found = root;
+        return;
+    }
+    for(int i = 0; i < root->children; i++)
+    {
+        search(root->arr[i], s, found);
+    }
+}
+
+void editNode(node * root) // Tested
+{
+    char s[MAX_SIZE];
+    printf("Enter the name of the node to edit:\n");
+    scanf("%s", s);
+    node * found=NULL;
+    search(root, s, &found);
+    if(found)
+    {
+        printf("Enter the name of the subject\n");
+        scanf("%s", &found->name);
+        printf("Enter the number of hours or -1 if you want to calculate it automatically later: ");
+        scanf("%d", &found->hours);
+        printf("Enter the number of marks or -1 if you want to calculate it automatically later: ");
+        scanf("%d", &found->marks);
+    }
+    
+}
+
+int isCompleted(node * root, char s[MAX_SIZE]) //Tested
+{
+    if(strcmp(root->name, s) == 0)
+    {
+        //printf("TEST");
+        if(root->completed == 1)return 1;
+    }
+    int isComp = 0;
+    for(int i = 0; i < root->children; i++)
+    {
+        isComp += isCompleted(root->arr[i], s);
+    }
+    return isComp;
+}
+
+int buildHours(node * root) // Tested
+{
+    if(root->hours != -1)return root->hours;
+    int h = 0;
+    for(int i = 0; i < root->children; i++)
+    {
+        h += buildHours(root->arr[i]);
+    }
+    root->hours = h;
+    return h;
+}
+
+void displayNotCompleted(node * root) { // Tested
+    if(root->completed == 0)
+    {
+        printf("%s\n", root->name);
+
+    }
+     for(int i = 0; i < root->children; i++)
+    {
+        displayNotCompleted(root->arr[i]);
+    }
+}
+
+
+void buildTree(node* root) // Tested
+{
+    printf("Enter the number of nodes in your tree(excluding the root)");
+    int n;
+    scanf("%d", &n);
+    for(int i = 0; i < n; i++)
+    {
+        insertNode(root);
+    }
+}
+
+void displayAll(node * root) // Tested
+{
+    displaynode(root);
+    for(int i = 0; i < root->children; i++)
+    {
+        displayAll(root->arr[i]);
+    }
+}
+
+void markCompleted(node * root) // Tested
+{
+    char s[MAX_SIZE];
+    printf("Enter the module to be marked completed\n");
+    scanf("%s", s);
+    node * parent = NULL;
+    //printf("TEST");
+    search(root, s, &parent);
+    (parent)->completed = 1;
+    
+}
+
+node * createNode() // Tested
+{
+    node *head = (node *)malloc(sizeof(node));
+    printf("Enter the name of the module\n");
+    scanf("%s", head->name);
+    printf("Enter the number of hours or -1 if you want to calculate it automatically later: ");
+    scanf("%d",&head->hours);
+    printf("Enter the number of marks or -1 if you want to calculate it automatically later: ");
+    scanf("%d",&head->marks);
+    head->children = 0;
+    head->completed = 0;
+    return head;
+}
+
+void insertNode(node * head) //Tested
+{
+    node * x = createNode();
+    printf("Enter name of parent node\n");
+    char s[MAX_SIZE];
+    scanf("%s", s);
+    node *f = NULL;
+    search(head, s, &f);
+   
+    (f)->arr[(f)->children] = x;
+    (f)->children++;
+   
+}
+
+int main(){
+    printf("Enter name of node to be searched\n");
+    char s[MAX_SIZE];
+    scanf("%s", s);
+    node **f;
+    *f = NULL;
+    search(head, s, f);
+    if(*f == NULL)printf("Not found\n");
+    else printf("Found\n");
+
+    if(isCompleted(head, head->name))printf("Completed\n");
+    else printf("Not Completed\n");
+
+    head->completed = 1;
+
+    if(isCompleted(head, head->name))printf("Completed\n");
+    else printf("Not Completed\n");
+    displaynode(head);
+
+}
