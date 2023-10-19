@@ -33,7 +33,7 @@ void search(node * root, char s[MAX_SIZE], node ** found) //Tested
     }
 }
 
-void editNode(node * root)
+void editNode(node * root) // Tested
 {
     char s[MAX_SIZE];
     printf("Enter the name of the node to edit:\n");
@@ -67,7 +67,7 @@ int isCompleted(node * root, char s[MAX_SIZE]) //Tested
     return isComp;
 }
 
-int buildHours(node * root)
+int buildHours(node * root) // Tested
 {
     if(root->hours != -1)return root->hours;
     int h = 0;
@@ -75,6 +75,7 @@ int buildHours(node * root)
     {
         h += buildHours(root->arr[i]);
     }
+    root->hours = h;
     return h;
 }
 
@@ -153,7 +154,9 @@ void insertNode(node * head) //Tested
 
 int main(){
     node *root = createNode();
-    displaynode(root);
-    editNode(root);
-    displaynode(root);
+    buildTree(root);
+    buildHours(root);
+
+    printf("Tree after computing hours from its descendants\n\n");
+    displayAll(root);
 }
