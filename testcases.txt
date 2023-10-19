@@ -1,6 +1,24 @@
-For 1 Node:
+Testcase For 1 Node: (Checked for createnode, isCompleted, general Node structure, searching)
 
 Chemistry
 5
 10
 Chemistry
+
+
+Testcase 2: Insertion of Node:
+
+Chemistry
+5
+10
+Organic
+15
+20
+Chemistry
+Organic
+
+Testcase 3: Building subject tree and displaying them
+Input: main.txt
+Output: All the nodes
+
+

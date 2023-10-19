@@ -1,0 +1,35 @@
+Testcase 1:
+    printf("Enter name of node to be searched\n");
+    char s[MAX_SIZE];
+    scanf("%s", s);
+    node **f;
+    *f = NULL;
+    search(head, s, f);
+    if(*f == NULL)printf("Not found\n");
+    else printf("Found\n");
+
+    if(isCompleted(head, head->name))printf("Completed\n");
+    else printf("Not Completed\n");
+
+    head->completed = 1;
+
+    if(isCompleted(head, head->name))printf("Completed\n");
+    else printf("Not Completed\n");
+    displaynode(head);
+
+Testcase 2:
+
+
+Testcase 3:
+ node *root = createNode();
+ buildTree(root);
+ displayAll(node);
+
+
+Testcase 4: Marking Completed and Displaying non completed
+
+Testcase 5: Editing a Node
+node *root = createNode();
+    displaynode(root);
+    editNode(root);
+    displaynode(root);

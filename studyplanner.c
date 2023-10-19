@@ -12,14 +12,16 @@ typedef struct node {
     int completed;
 } node;
 
+void insertNode(node * head);
+
 node ** rootPointer;
-void displaynode(node * n){
-     printf("The subject name is: %s \n The number of hours is: %d \n The marks alotted are %d", n->name, n->hours, n->marks);
+void displaynode(node * n){ // Tested
+     printf("The subject name is: %s \nThe number of hours is: %d \nThe marks alotted are: %d\n\n", n->name, n->hours, n->marks);
      
 }
 
-void search(node * root, char s[MAX_SIZE], node ** found) {
-    // printf("%s", root->name);
+void search(node * root, char s[MAX_SIZE], node ** found) //Tested
+{
     if(strcmp(root->name, s) == 0)
     {
         *found = root;
@@ -31,7 +33,26 @@ void search(node * root, char s[MAX_SIZE], node ** found) {
     }
 }
 
-int isCompleted(node * root, char s[MAX_SIZE])
+void editNode(node * root)
+{
+    char s[MAX_SIZE];
+    printf("Enter the name of the node to edit:\n");
+    scanf("%s", s);
+    node * found=NULL;
+    search(root, s, &found);
+    if(found)
+    {
+        printf("Enter the name of the subject\n");
+        scanf("%s", &found->name);
+        printf("Enter the number of hours or -1 if you want to calculate it automatically later: ");
+        scanf("%d", &found->hours);
+        printf("Enter the number of marks or -1 if you want to calculate it automatically later: ");
+        scanf("%d", &found->marks);
+    }
+    
+}
+
+int isCompleted(node * root, char s[MAX_SIZE]) //Tested
 {
     if(strcmp(root->name, s) == 0)
     {
@@ -57,10 +78,55 @@ int buildHours(node * root)
     return h;
 }
 
-node * createNode()
+void displayNotCompleted(node * root) { // Tested
+    if(root->completed == 0)
+    {
+        printf("%s\n", root->name);
+
+    }
+     for(int i = 0; i < root->children; i++)
+    {
+        displayNotCompleted(root->arr[i]);
+    }
+}
+
+
+void buildTree(node* root) // Tested
+{
+    printf("Enter the number of nodes in your tree(excluding the root)");
+    int n;
+    scanf("%d", &n);
+    for(int i = 0; i < n; i++)
+    {
+        insertNode(root);
+    }
+}
+
+void displayAll(node * root) // Tested
+{
+    displaynode(root);
+    for(int i = 0; i < root->children; i++)
+    {
+        displayAll(root->arr[i]);
+    }
+}
+
+void markCompleted(node * root) // Tested
+{
+    char s[MAX_SIZE];
+    printf("Enter the module to be marked completed\n");
+    scanf("%s", s);
+    node * parent = NULL;
+    //printf("TEST");
+    search(root, s, &parent);
+    (parent)->completed = 1;
+    
+}
+
+node * createNode() // Tested
 {
     node *head = (node *)malloc(sizeof(node));
-    printf("Enter the name of the subject\n");
+    printf("Enter the name of the module\n");
     scanf("%s", head->name);
     printf("Enter the number of hours or -1 if you want to calculate it automatically later: ");
     scanf("%d",&head->hours);
@@ -71,39 +137,23 @@ node * createNode()
     return head;
 }
 
-void insertNode()
+void insertNode(node * head) //Tested
 {
     node * x = createNode();
+    printf("Enter name of parent node\n");
     char s[MAX_SIZE];
-    printf("Enter the parent node name\n");
     scanf("%s", s);
-
-    node ** parent;
-    search(*rootPointer, s, parent);
-    (*parent)->arr[(*parent)->children] = x;
-    (*parent)->children++;
+    node *f = NULL;
+    search(head, s, &f);
+   
+    (f)->arr[(f)->children] = x;
+    (f)->children++;
+   
 }
 
 int main(){
-    node *head = createNode();
-
-    printf("Enter name of node to be searched\n");
-    char s[MAX_SIZE];
-    scanf("%s", s);
-    node **f;
-    *f = NULL;
-    search(head, s, f);
-    if(*f == NULL)printf("Not found\n");
-    else printf("Found\n");
-
-    if(isCompleted(head, head->name))printf("Completed\n");
-    else printf("Not Completed\n");
-
-    head->completed = 1;
-
-    if(isCompleted(head, head->name))printf("Completed\n");
-    else printf("Not Completed\n");
-
-    displaynode(head);
-
-} 
+    node *root = createNode();
+    displaynode(root);
+    editNode(root);
+    displaynode(root);
+}
