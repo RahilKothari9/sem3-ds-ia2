@@ -12,6 +12,7 @@ typedef struct node {
     int completed;
 } node;
 
+node ** rootPointer;
 void displaynode(node * n){
      printf("The subject name is: %s \n The number of hours is: %d \n The marks alotted are %d", n->name, n->hours, n->marks);
      
@@ -59,21 +60,34 @@ int buildHours(node * root)
 node * createNode()
 {
     node *head = (node *)malloc(sizeof(node));
-    //printf("Enter the name of the subject\n");
+    printf("Enter the name of the subject\n");
     scanf("%s", head->name);
-    //printf("Enter the number of hours or -1 if you want to calculate it automatically later: ");
+    printf("Enter the number of hours or -1 if you want to calculate it automatically later: ");
     scanf("%d",&head->hours);
-    //printf("Enter the number of marks or -1 if you want to calculate it automatically later: ");
+    printf("Enter the number of marks or -1 if you want to calculate it automatically later: ");
     scanf("%d",&head->marks);
     head->children = 0;
     head->completed = 0;
     return head;
 }
 
+void insertNode()
+{
+    node * x = createNode();
+    char s[MAX_SIZE];
+    printf("Enter the parent node name\n");
+    scanf("%s", s);
+
+    node ** parent;
+    search(*rootPointer, s, parent);
+    (*parent)->arr[(*parent)->children] = x;
+    (*parent)->children++;
+}
 
 int main(){
     node *head = createNode();
 
+    printf("Enter name of node to be searched\n");
     char s[MAX_SIZE];
     scanf("%s", s);
     node **f;
